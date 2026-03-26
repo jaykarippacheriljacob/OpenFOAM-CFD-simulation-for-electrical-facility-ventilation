@@ -1,16 +1,22 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-  Gravity vector
+  Turbulence properties for RAS k-epsilon model
 \*---------------------------------------------------------------------------*/
 
 FoamFile
 {
     format      ascii;
-    class       uniformDimensionedVectorField;
+    class       dictionary;
     location    "constant";
-    object      g;
+    object      turbulenceProperties;
 }
 
-dimensions      [0 1 -2 0 0 0 0];
-value           uniform (0 0 -9.81);
+simulationType RAS;
+
+RAS
+{
+    RASModel        kEpsilon;
+    turbulence      on;
+    printCoeffs     on;
+}
 
 // ************************************************************************* //

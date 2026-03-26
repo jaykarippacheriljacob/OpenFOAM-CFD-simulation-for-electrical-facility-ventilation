@@ -1,10 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Version:  11
-     \\/     M anipulation  |
+  Thermophysical properties for air using Boussinesq approximation
 \*---------------------------------------------------------------------------*/
+
 FoamFile
 {
     format      ascii;
@@ -12,7 +9,6 @@ FoamFile
     location    "constant";
     object      physicalProperties;
 }
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 thermoType
 {
@@ -22,32 +18,33 @@ thermoType
     thermo          hConst;
     equationOfState Boussinesq;
     specie          specie;
-    energy          sensibleEnthalpy;
+    energy          sensibleInternalEnergy;
 }
 
 mixture
 {
     specie
     {
-        molWeight       28.9;
-    }
-    equationOfState
-    {
-        rho0            1;
-        T0              300;
-        beta            3e-03;
+        nMoles          1;
+        molWeight       28.97;
     }
     thermodynamics
     {
-        Cp              1000;
+        Cp              1005;       // J/(kg·K)
         Hf              0;
     }
     transport
     {
-        mu              1e-05;
-        Pr              0.7;
+        mu              1.8e-5;     // Pa·s
+        Pr              0.71;
     }
 }
 
+boussinesqCoeffs
+{
+    rhoRef           1.2;
+    beta             3.3e-3;       // 1/K
+    TRef             300;
+}
 
 // ************************************************************************* //
