@@ -1,17 +1,6 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Version:  11
-     \\/     M anipulation  |
+  Pressure for buoyant flow
 \*---------------------------------------------------------------------------*/
-FoamFile
-{
-    format      ascii;
-    class       volScalarField;
-    object      p_rgh;
-}
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 dimensions      [1 -1 -2 0 0 0 0];
 
@@ -19,23 +8,24 @@ internalField   uniform 0;
 
 boundaryField
 {
-    floor
+    inlet
     {
         type            fixedFluxPressure;
-        value           $internalField;
     }
 
-    ceiling
+    outlet
     {
-        type            fixedFluxPressure;
-        value           $internalField;
+        type            fixedValue;
+        value           uniform 0;
     }
 
-    fixedWalls
+    walls
     {
         type            fixedFluxPressure;
-        value           $internalField;
+    }
+
+    switchgear
+    {
+        type            fixedFluxPressure;
     }
 }
-
-// ************************************************************************* //
