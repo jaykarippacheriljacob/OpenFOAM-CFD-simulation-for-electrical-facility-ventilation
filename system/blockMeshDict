@@ -1,67 +1,98 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-  =========                 |
-  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
-   \\    /   O peration     | Website:  https://openfoam.org
-    \\  /    A nd           | Version:  11
-     \\/     M anipulation  |
+  Simple rectangular room with central switchgear blocks and side vents
 \*---------------------------------------------------------------------------*/
+
 FoamFile
 {
+    version     2.0;
     format      ascii;
     class       dictionary;
     object      blockMeshDict;
 }
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+// Dimensions
 convertToMeters 1;
 
 vertices
 (
-    (0 0 0)
-    (10 0 0)
-    (10 5 0)
-    (0 5 0)
-    (0 0 10)
-    (10 0 10)
-    (10 5 10)
-    (0 5 10)
+    // Room corners (10m x 6m x 4m)
+    (0 0 0)      // 0
+    (10 0 0)     // 1
+    (10 6 0)     // 2
+    (0 6 0)      // 3
+    (0 0 4)      // 4
+    (10 0 4)     // 5
+    (10 6 4)      // 6
+    (0 6 4)      // 7
+
+    // Switchgear block 1 (center, 1.5x1x2 m)
+    (4 2.5 0)    // 8
+    (5.5 2.5 0)  // 9
+    (5.5 3.5 0)  // 10
+    (4 3.5 0)    // 11
+    (4 2.5 2)    // 12
+    (5.5 2.5 2)  // 13
+    (5.5 3.5 2)  // 14
+    (4 3.5 2)    // 15
 );
 
 blocks
 (
-    hex (0 1 2 3 4 5 6 7) (20 10 20) simpleGrading (1 1 1)
+    // Room block
+    hex (0 1 2 3 4 5 6 7) (40 24 16) simpleGrading (1 1 1)
+);
+
+edges
+(
 );
 
 boundary
 (
-    floor
+    inlet
     {
-        type wall;
+        type patch;
         faces
         (
-            (1 5 4 0)
+            (0 3 7 4)  // left wall as inlet
         );
     }
-    ceiling
+
+    outlet
     {
-        type wall;
+        type patch;
         faces
         (
-            (3 7 6 2)
+            (1 2 6 5) // right wall as outlet
         );
     }
-    fixedWalls
+
+    walls
     {
         type wall;
         faces
         (
-            (0 4 7 3)
-            (2 6 5 1)
-            (0 3 2 1)
-            (4 5 6 7)
+            (0 1 5 4) // floor-side walls
+            (2 3 7 6)
+            (0 1 2 3) // bottom
+            (4 5 6 7) // top
+        );
+    }
+
+    switchgear
+    {
+        type wall;
+        faces
+        (
+            (8 9 13 12)
+            (9 10 14 13)
+            (10 11 15 14)
+            (11 8 12 15)
+            (8 9 10 11)
+            (12 13 14 15)
         );
     }
 );
 
-
-// ************************************************************************* //
+mergePatchPairs
+(
+);

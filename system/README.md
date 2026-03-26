@@ -1,10 +1,17 @@
 # system directory (numerical and control settings)
 
-Base from tutorial:
-- `fvSchemes`: steady-state treatment, upwind for convective fluxes, Gauss linear for gradients and diffusion.
-- `fvSolution`: standard p_rgh + U/k/epsilon solvers with relaxation factors.
+Base case: `hotRoomBoussinesqSteady` with modifications for switchgear ventilation.
 
-Adapted for project:
-- `controlDict`: `application buoyantSimpleFoam`, stopAt endTime 2000, deltaT 1, write every 100.
+What was changed:
+- `controlDict`: set `application buoyantSimpleFoam`.
+- `blockMeshDict`: replaced with project-specific room geometry (10 x 6 x 4 m, central switchgear block, inlet at left wall, outlet at right wall).
+- `fvSchemes`: steady-state and Boussinesq-suitable schemes from tutorial.
+- `fvSolution`: solver settings for p_rgh, U, h, k, epsilon with relaxation factors.
 
-This ensures correct solver dispatch and stable convergence for your steady buoyant simulation.
+How to run:
+- `./Allclean`
+- `./Allrun`
+
+Post-process:
+- `foamToVTK`
+- ParaView (local or pvpython headless).
