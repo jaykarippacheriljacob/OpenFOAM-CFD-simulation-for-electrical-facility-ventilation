@@ -5,63 +5,66 @@
     \\  /    A nd           | Version:  11
      \\/     M anipulation  |
 \*---------------------------------------------------------------------------*/
-FoamFile
-{
-    format      ascii;
-    class       dictionary;
-    location    "system";
-    object      fvSolution;
-}
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+/*--------------------------------*- C++ -*----------------------------------*\
+  Solver settings and relaxation factors
+\*---------------------------------------------------------------------------*/
 
 solvers
 {
     p_rgh
     {
-        solver          PCG;
-        preconditioner  DIC;
+        solver          GAMG;
         tolerance       1e-6;
-        relTol          0.01;
+        relTol          0.1;
+        smoother        GaussSeidel;
+        nPreSweeps      0;
+        nPostSweeps     2;
+        cacheAgglomeration true;
+        nCellsInCoarsestLevel 10;
     }
 
-    "(U|h|k|epsilon)"
+    U
     {
-        solver          PBiCGStab;
-        preconditioner  DILU;
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-5;
+        relTol          0.1;
+    }
+
+    T
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
         tolerance       1e-6;
+        relTol          0.1;
+    }
+
+    k
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-5;
+        relTol          0.1;
+    }
+
+    epsilon
+    {
+        solver          smoothSolver;
+        smoother        GaussSeidel;
+        tolerance       1e-5;
         relTol          0.1;
     }
 }
 
-PIMPLE
+SIMPLE
 {
-    pRefCell        0;
-    pRefValue       0;
-
+    nNonOrthogonalCorrectors 0;
     residualControl
     {
-        p_rgh           1e-2;
-        U               1e-3;
-        h               1e-3;
-
-        // possibly check turbulence fields
-        "(k|epsilon|omega)" 1e-3;
+        p_rgh           1e-5;
+        U               1e-5;
+        T               1e-6;
+        k               1e-5;
+        epsilon         1e-5;
     }
 }
-
-relaxationFactors
-{
-    fields
-    {
-        p_rgh           0.7;
-    }
-    equations
-    {
-        U               0.2;
-        h               0.6;
-        "(k|epsilon|R)" 0.7;
-    }
-}
-
-
-// ************************************************************************* //
