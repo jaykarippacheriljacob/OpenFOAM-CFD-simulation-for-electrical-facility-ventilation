@@ -1,5 +1,5 @@
 /*--------------------------------*- C++ -*----------------------------------*\
-  Simple rectangular room with central switchgear blocks and side vents
+  Simple rectangular room with side inlet/outlet vents
 \*---------------------------------------------------------------------------*/
 
 FoamFile
@@ -10,7 +10,6 @@ FoamFile
     object      blockMeshDict;
 }
 
-// Dimensions
 convertToMeters 1;
 
 vertices
@@ -22,23 +21,13 @@ vertices
     (0 6 0)      // 3
     (0 0 4)      // 4
     (10 0 4)     // 5
-    (10 6 4)      // 6
+    (10 6 4)     // 6
     (0 6 4)      // 7
-
-    // Switchgear block 1 (center, 1.5x1x2 m)
-    (4 2.5 0)    // 8
-    (5.5 2.5 0)  // 9
-    (5.5 3.5 0)  // 10
-    (4 3.5 0)    // 11
-    (4 2.5 2)    // 12
-    (5.5 2.5 2)  // 13
-    (5.5 3.5 2)  // 14
-    (4 3.5 2)    // 15
 );
 
 blocks
 (
-    // Room block
+    // Room block: 40x24x16 cells
     hex (0 1 2 3 4 5 6 7) (40 24 16) simpleGrading (1 1 1)
 );
 
@@ -62,7 +51,7 @@ boundary
         type patch;
         faces
         (
-            (1 2 6 5) // right wall as outlet
+            (1 2 6 5)  // right wall as outlet
         );
     }
 
@@ -71,24 +60,10 @@ boundary
         type wall;
         faces
         (
-            (0 1 5 4) // floor-side walls
-            (2 3 7 6)
-            (0 1 2 3) // bottom
-            (4 5 6 7) // top
-        );
-    }
-
-    switchgear
-    {
-        type wall;
-        faces
-        (
-            (8 9 13 12)
-            (9 10 14 13)
-            (10 11 15 14)
-            (11 8 12 15)
-            (8 9 10 11)
-            (12 13 14 15)
+            (0 1 5 4)  // front wall (y=0)
+            (2 3 7 6)  // back wall (y=6)
+            (0 1 2 3)  // floor (z=0)
+            (4 5 6 7)  // ceiling (z=4)
         );
     }
 );
@@ -96,3 +71,5 @@ boundary
 mergePatchPairs
 (
 );
+
+// ************************************************************************* //

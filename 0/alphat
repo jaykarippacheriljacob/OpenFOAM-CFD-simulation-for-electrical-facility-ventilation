@@ -20,25 +20,24 @@ internalField   uniform 0;
 
 boundaryField
 {
-    floor
+    inlet
     {
-        type            compressible::alphatJayatillekeWallFunction;
-        Prt             0.85;
+        type            calculated;
         value           uniform 0;
     }
-    ceiling
+
+    outlet
     {
-        type            compressible::alphatJayatillekeWallFunction;
-        Prt             0.85;
+        type            calculated;
         value           uniform 0;
     }
-    fixedWalls
+
+    walls
     {
-        type            compressible::alphatJayatillekeWallFunction;
+        type            compressible::alphatWallFunction;
         Prt             0.85;
         value           uniform 0;
     }
 }
-
 
 // ************************************************************************* //

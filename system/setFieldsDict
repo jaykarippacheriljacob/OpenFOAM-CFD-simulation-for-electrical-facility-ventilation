@@ -9,9 +9,9 @@ FoamFile
 {
     format      ascii;
     class       dictionary;
+    location    "system";
     object      setFieldsDict;
 }
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 defaultFieldValues
@@ -21,14 +21,15 @@ defaultFieldValues
 
 regions
 (
-    // Set patch values (using ==)
-    boxToFace
+    // Switchgear cabinet region (4–5.5 m along x, 2.5–3.5 m along y, 0–2 m height)
+    // Initialise cells inside the switchgear volume to elevated temperature
+    boxToCell
     {
-        box (4.5 -1000 4.5) (5.5 1e-5 5.5);
+        box (4 2.5 0) (5.5 3.5 2);
 
         fieldValues
         (
-            volScalarFieldValue T 600
+            volScalarFieldValue T 360    // ~87°C — warm equipment start
         );
     }
 );

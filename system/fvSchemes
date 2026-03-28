@@ -5,9 +5,14 @@
     \\  /    A nd           | Version:  11
      \\/     M anipulation  |
 \*---------------------------------------------------------------------------*/
-/*--------------------------------*- C++ -*----------------------------------*\
-  Finite volume schemes
-\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 ddtSchemes
 {
@@ -17,15 +22,20 @@ ddtSchemes
 gradSchemes
 {
     default         Gauss linear;
+    grad(U)         cellLimited Gauss linear 1;
 }
 
 divSchemes
 {
-    div(phi,U)      Gauss upwind;
-    div(phi,T)      Gauss upwind;
-    div(phi,k)      Gauss upwind;
-    div(phi,epsilon) Gauss upwind;
-    div((nuEff*dev(T(grad(U))))) Gauss linear;
+    default             none;
+    div(phi,U)          Gauss linearUpwind grad(U);
+    div(phi,T)          Gauss upwind;
+    div(phi,h)          Gauss upwind;
+    div(phi,k)          Gauss upwind;
+    div(phi,epsilon)    Gauss upwind;
+    div(phi,K)          Gauss upwind;
+    div(phid,p)         Gauss upwind;
+    div((nu*dev(T(grad(U))))) Gauss linear;  // corrected viscous stress term
 }
 
 laplacianSchemes
@@ -42,3 +52,5 @@ snGradSchemes
 {
     default         corrected;
 }
+
+// ************************************************************************* //

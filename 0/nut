@@ -20,22 +20,23 @@ internalField   uniform 0;
 
 boundaryField
 {
-    floor
+    inlet
     {
-        type            nutkWallFunction;
+        type            calculated;
         value           uniform 0;
     }
-    ceiling
+
+    outlet
     {
-        type            nutkWallFunction;
+        type            calculated;
         value           uniform 0;
     }
-    fixedWalls
+
+    walls
     {
         type            nutkWallFunction;
         value           uniform 0;
     }
 }
-
 
 // ************************************************************************* //

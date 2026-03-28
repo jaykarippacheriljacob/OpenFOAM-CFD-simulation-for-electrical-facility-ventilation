@@ -5,9 +5,14 @@
     \\  /    A nd           | Version:  11
      \\/     M anipulation  |
 \*---------------------------------------------------------------------------*/
-/*--------------------------------*- C++ -*----------------------------------*\
-  Run control dictionary
-\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 application     buoyantSimpleFoam;
 
@@ -38,3 +43,9 @@ timeFormat      general;
 timePrecision   6;
 
 runTimeModifiable yes;
+
+functions
+{
+}
+
+// ************************************************************************* //
